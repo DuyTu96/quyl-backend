@@ -1,0 +1,16 @@
+openapi: 3.0.0
+info:
+  title: 'My first API'
+  contact:
+    email: support@example.com
+  version: 1.0.0
+paths:
+  /auth/login:
+    get:
+      summary: 'list products'
+      operationId: b6e84072e9c6286fafe08cfe9baf3b4f
+      responses:
+        '200':
+          description: 'A list with products'
+        default:
+          description: 'an "unexpected" error'

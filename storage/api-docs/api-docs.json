@@ -1,0 +1,51 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My first API",
+        "contact": {
+            "email": "support@example.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "summary": "list products",
+                "operationId": "8cb7742ae98d0990acb2907c4e00bf24",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "offset",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "tudd@gmail.com"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "offset",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "12345678"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list with products"
+                    },
+                    "default": {
+                        "description": "an \"unexpected\" error"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}

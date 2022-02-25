@@ -1,0 +1,1224 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Api Document",
+        "termsOfService": "",
+        "version": "1.0.0"
+    },
+    "host": "api.revitalizecs.com",
+    "basePath": "/",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Authencation"
+                ],
+                "summary": "Login",
+                "description": "Login",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Authencation"
+                ],
+                "summary": "Register",
+                "description": "Register",
+                "parameters": [
+                    {
+                        "name": "first_name",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "contact_number",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/auth/reset-email": {
+            "post": {
+                "tags": [
+                    "Authencation"
+                ],
+                "summary": "Reset Email",
+                "description": "Reset Email",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/staff/list": {
+            "post": {
+                "tags": [
+                    "Staff"
+                ],
+                "summary": "Staff List",
+                "description": "Staff List",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "start": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "length": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "search": {
+                                    "type": "object",
+                                    "collectionFormat": "multi",
+                                    "example": {
+                                        "value": ""
+                                    }
+                                },
+                                "order": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "column": "",
+                                            "dir": ""
+                                        }
+                                    },
+                                    "collectionFormat": "multi"
+                                },
+                                "columns": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": ""
+                                    }
+                                },
+                                "draw": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/staff/save": {
+            "post": {
+                "tags": [
+                    "Staff"
+                ],
+                "summary": "Staff Save",
+                "description": "Staff Save",
+                "parameters": [
+                    {
+                        "name": "first_name",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "contact_number",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "biography",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "website_url",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "account_type",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/staff/update": {
+            "post": {
+                "tags": [
+                    "Staff"
+                ],
+                "summary": "Staff Update",
+                "description": "Staff Update",
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "query",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "first_name",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "contact_number",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "account_type",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "biography",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "website_url",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/staff/delete": {
+            "post": {
+                "tags": [
+                    "Staff"
+                ],
+                "summary": "Staff Delete",
+                "description": "Staff Delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/customers/list": {
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Customers List",
+                "description": "Customers List",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "start": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "length": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "search": {
+                                    "type": "object",
+                                    "collectionFormat": "multi",
+                                    "example": {
+                                        "value": ""
+                                    }
+                                },
+                                "order": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "column": "",
+                                            "dir": ""
+                                        }
+                                    },
+                                    "collectionFormat": "multi"
+                                },
+                                "columns": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": ""
+                                    }
+                                },
+                                "draw": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/customers/create": {
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Customers Create",
+                "description": "Customers Create",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "contact_number",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "website_url",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/customers/settings": {
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Customers Settings",
+                "description": "Customers Settings",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "push_notification",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "text_message",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "low_balance",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "new_charger_added",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fully_charged",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "charging_intrupted",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ship_to_address",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "address_1",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "address_2",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "postalcode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "state",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "charging_level",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "access_level",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/customers/delete": {
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Customers Delete",
+                "description": "Customers Delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/chargers/list": {
+            "post": {
+                "tags": [
+                    "Chargers"
+                ],
+                "summary": "Chargers List",
+                "description": "Chargers List",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "start": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "length": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "search": {
+                                    "type": "object",
+                                    "collectionFormat": "multi",
+                                    "example": {
+                                        "value": ""
+                                    }
+                                },
+                                "order": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "column": "",
+                                            "dir": ""
+                                        }
+                                    },
+                                    "collectionFormat": "multi"
+                                },
+                                "columns": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": ""
+                                    }
+                                },
+                                "draw": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/chargers/history-list": {
+            "post": {
+                "tags": [
+                    "Chargers"
+                ],
+                "summary": "Chargers History List",
+                "description": "Chargers History List",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "start": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "length": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "search": {
+                                    "type": "object",
+                                    "collectionFormat": "multi",
+                                    "example": {
+                                        "value": ""
+                                    }
+                                },
+                                "order": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "column": "",
+                                            "dir": ""
+                                        }
+                                    },
+                                    "collectionFormat": "multi"
+                                },
+                                "columns": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": ""
+                                    }
+                                },
+                                "draw": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/chargers/add": {
+            "post": {
+                "tags": [
+                    "Chargers"
+                ],
+                "summary": "Chargers Create",
+                "description": "Chargers Create",
+                "parameters": [
+                    {
+                        "name": "charger_id",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "usage_type",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "connector_type",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "operator",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "contact_number",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cost",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "charging_level",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "access_level",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "service_time",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/chargers/update": {
+            "post": {
+                "tags": [
+                    "Chargers"
+                ],
+                "summary": "Chargers Update",
+                "description": "Chargers Update",
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "charger_id",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "usage_type",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "connector_type",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "operator",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "contact_number",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cost",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "charging_level",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "access_level",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "service_time",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/chargers/delete": {
+            "post": {
+                "tags": [
+                    "Chargers"
+                ],
+                "summary": "Chargers Delete",
+                "description": "Chargers Delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/chargers/filters-list": {
+            "post": {
+                "tags": [
+                    "Chargers"
+                ],
+                "summary": "Chargers Filters List",
+                "description": "Chargers Filters List",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "start": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "length": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "search": {
+                                    "type": "object",
+                                    "collectionFormat": "multi",
+                                    "example": {
+                                        "value": ""
+                                    }
+                                },
+                                "order": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "column": "",
+                                            "dir": ""
+                                        }
+                                    },
+                                    "collectionFormat": "multi"
+                                },
+                                "columns": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": ""
+                                    }
+                                },
+                                "draw": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/chargers/delete-filter": {
+            "post": {
+                "tags": [
+                    "Chargers"
+                ],
+                "summary": "Chargers Delete Filter",
+                "description": "Chargers Delete Filter",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/chargers/filters": {
+            "get": {
+                "tags": [
+                    "Chargers"
+                ],
+                "summary": "Chargers Get Filter",
+                "description": "Chargers Get Filter",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Chargers"
+                ],
+                "summary": "Chargers Add Filter",
+                "description": "Chargers Add Filter",
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "query",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "filter_name",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "filter_type",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/chargers/delete-history": {
+            "post": {
+                "tags": [
+                    "Chargers"
+                ],
+                "summary": "Chargers Delete History",
+                "description": "Chargers Delete History",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "SuccessResponse": {
+            "required": [
+                "status",
+                "message",
+                "data"
+            ],
+            "properties": {
+                "status": {
+                    "description": "success",
+                    "type": "string"
+                },
+                "message": {
+                    "description": "message",
+                    "type": "string"
+                },
+                "data": {
+                    "description": "data response",
+                    "type": "object"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "SuccessResponse"
+            }
+        },
+        "ValidateResponse": {
+            "required": [
+                "message",
+                "error"
+            ],
+            "properties": {
+                "message": {
+                    "description": "message",
+                    "type": "string"
+                },
+                "error": {
+                    "description": "error response",
+                    "type": "object"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "ValidateResponse"
+            }
+        },
+        "UnauthorizedResponse": {
+            "required": [
+                "status",
+                "message",
+                "data"
+            ],
+            "properties": {
+                "status": {
+                    "description": "status",
+                    "type": "string"
+                },
+                "message": {
+                    "description": "message",
+                    "type": "string"
+                },
+                "data": {
+                    "description": "data response",
+                    "type": "object"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "UnauthorizedResponse"
+            }
+        }
+    },
+    "securityDefinitions": {
+        "bearerAuth": {
+            "type": "apiKey",
+            "description": "Bearer Token",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "tags": [
+        {
+            "name": "Authencation"
+        },
+        {
+            "name": "Staff"
+        },
+        {
+            "name": "Customers"
+        },
+        {
+            "name": "Chargers"
+        }
+    ]
+}
