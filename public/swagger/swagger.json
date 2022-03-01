@@ -8,9 +8,55 @@
     "host": "api.revitalizecs.com",
     "basePath": "/",
     "schemes": [
-        "http"
+        "https"
     ],
     "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Authencation"
+                ],
+                "summary": "Register",
+                "description": "Register",
+                "parameters": [
+                    {
+                        "name": "first_name",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "contact_number",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/auth/login": {
             "post": {
                 "tags": [
@@ -39,22 +85,35 @@
                 }
             }
         },
-        "/auth/register": {
+        "/auth/logout": {
             "post": {
                 "tags": [
                     "Authencation"
                 ],
-                "summary": "Register",
-                "description": "Register",
+                "summary": "Logout",
+                "description": "Logout",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/update-password": {
+            "post": {
+                "tags": [
+                    "Authencation"
+                ],
+                "summary": "Update Password",
+                "description": "Update Password",
                 "parameters": [
                     {
-                        "name": "first_name",
-                        "in": "query",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "email",
+                        "name": "current_password",
                         "in": "query",
                         "required": true,
                         "type": "string"
@@ -64,9 +123,36 @@
                         "in": "query",
                         "required": true,
                         "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/reset-password": {
+            "post": {
+                "tags": [
+                    "Authencation"
+                ],
+                "summary": "Reset Password",
+                "description": "Reset Password",
+                "parameters": [
+                    {
+                        "name": "current_password",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
                     },
                     {
-                        "name": "contact_number",
+                        "name": "password",
                         "in": "query",
                         "required": true,
                         "type": "string"
@@ -76,7 +162,12 @@
                     "200": {
                         "description": "OK"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/auth/reset-email": {
@@ -99,6 +190,161 @@
                         "description": "OK"
                     }
                 }
+            }
+        },
+        "/me": {
+            "get": {
+                "tags": [
+                    "Authencation"
+                ],
+                "summary": "Me",
+                "description": "Me",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Authencation"
+                ],
+                "summary": "Update profile",
+                "description": "Update profile",
+                "parameters": [
+                    {
+                        "name": "first_name",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "contact_number",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "website_url",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "biography",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/upload-avatar": {
+            "post": {
+                "tags": [
+                    "Authencation"
+                ],
+                "summary": "Upload Avatar",
+                "description": "Upload Avatar",
+                "parameters": [
+                    {
+                        "name": "profile_pic",
+                        "in": "query",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/device-token/add": {
+            "post": {
+                "tags": [
+                    "Device Token"
+                ],
+                "summary": "Add Device Token",
+                "description": "Add Device Token",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/device-token/delete": {
+            "post": {
+                "tags": [
+                    "Device Token"
+                ],
+                "summary": "Delete Device Token",
+                "description": "Delete Device Token",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/staff/list": {
@@ -248,7 +494,7 @@
                         "name": "_id",
                         "in": "query",
                         "required": true,
-                        "type": "number"
+                        "type": "string"
                     },
                     {
                         "name": "first_name",
@@ -317,7 +563,7 @@
                         "name": "id",
                         "in": "query",
                         "required": true,
-                        "type": "number"
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -461,13 +707,13 @@
                         "name": "customer_id",
                         "in": "query",
                         "required": true,
-                        "type": "number"
+                        "type": "string"
                     },
                     {
                         "name": "push_notification",
                         "in": "query",
                         "required": false,
-                        "type": "string"
+                        "type": "number"
                     },
                     {
                         "name": "email",
@@ -584,7 +830,7 @@
                         "name": "id",
                         "in": "query",
                         "required": true,
-                        "type": "number"
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -657,12 +903,7 @@
                     "200": {
                         "description": "OK"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/chargers/history-list": {
@@ -723,12 +964,7 @@
                     "200": {
                         "description": "OK"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/chargers/add": {
@@ -739,6 +975,12 @@
                 "summary": "Chargers Create",
                 "description": "Chargers Create",
                 "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "name": "charger_id",
                         "in": "query",
@@ -816,12 +1058,7 @@
                     "200": {
                         "description": "OK"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/chargers/update": {
@@ -839,6 +1076,12 @@
                         "type": "string"
                     },
                     {
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "name": "charger_id",
                         "in": "query",
                         "required": true,
@@ -915,12 +1158,7 @@
                     "200": {
                         "description": "OK"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/chargers/delete": {
@@ -935,19 +1173,14 @@
                         "name": "id",
                         "in": "query",
                         "required": true,
-                        "type": "number"
+                        "type": "string"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/chargers/filters-list": {
@@ -1008,12 +1241,7 @@
                     "200": {
                         "description": "OK"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/chargers/delete-filter": {
@@ -1028,19 +1256,14 @@
                         "name": "id",
                         "in": "query",
                         "required": true,
-                        "type": "number"
+                        "type": "string"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/chargers/filters": {
@@ -1054,12 +1277,7 @@
                     "200": {
                         "description": "OK"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
@@ -1071,8 +1289,8 @@
                     {
                         "name": "_id",
                         "in": "query",
-                        "required": true,
-                        "type": "number"
+                        "required": false,
+                        "type": "string"
                     },
                     {
                         "name": "filter_name",
@@ -1091,12 +1309,7 @@
                     "200": {
                         "description": "OK"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/chargers/delete-history": {
@@ -1109,6 +1322,117 @@
                 "parameters": [
                     {
                         "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/payments/list": {
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Payments List",
+                "description": "Payments List",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "start": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "length": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "search": {
+                                    "type": "object",
+                                    "collectionFormat": "multi",
+                                    "example": {
+                                        "value": ""
+                                    }
+                                },
+                                "order": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "column": "",
+                                            "dir": ""
+                                        }
+                                    },
+                                    "collectionFormat": "multi"
+                                },
+                                "columns": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": ""
+                                    }
+                                },
+                                "draw": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/payments/amount": {
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Payments Amount",
+                "description": "Payments Amount",
+                "parameters": [
+                    {
+                        "name": "cardNumber",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "CVV",
+                        "in": "query",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "expirationDate",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "amount",
                         "in": "query",
                         "required": true,
                         "type": "number"
@@ -1124,6 +1448,759 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/payments/delete": {
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Payments Delete",
+                "description": "Payments Delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/vehicles/list": {
+            "post": {
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Vehicles List",
+                "description": "Vehicles List",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "start": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "length": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "search": {
+                                    "type": "object",
+                                    "collectionFormat": "multi",
+                                    "example": {
+                                        "value": ""
+                                    }
+                                },
+                                "order": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "column": "",
+                                            "dir": ""
+                                        }
+                                    },
+                                    "collectionFormat": "multi"
+                                },
+                                "columns": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": ""
+                                    }
+                                },
+                                "draw": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/vehicles/registered-list": {
+            "post": {
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Vehicles Registered",
+                "description": "Vehicles Registered",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "start": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "length": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "search": {
+                                    "type": "object",
+                                    "collectionFormat": "multi",
+                                    "example": {
+                                        "value": ""
+                                    }
+                                },
+                                "order": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "column": "",
+                                            "dir": ""
+                                        }
+                                    },
+                                    "collectionFormat": "multi"
+                                },
+                                "columns": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": ""
+                                    }
+                                },
+                                "draw": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/vehicles/add": {
+            "post": {
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Vehicles Create",
+                "description": "Vehicles Create",
+                "parameters": [
+                    {
+                        "name": "model",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/vehicles/update": {
+            "post": {
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Vehicles Update",
+                "description": "Vehicles Update",
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "model",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/vehicles/delete": {
+            "post": {
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Vehicles Delete",
+                "description": "Vehicles Delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/vehicles/delete-registered": {
+            "post": {
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Vehicles Delete Registered",
+                "description": "Vehicles Delete Registered",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/energy/list": {
+            "post": {
+                "tags": [
+                    "Energy"
+                ],
+                "summary": "Energy List",
+                "description": "Energy List",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "start": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "length": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "search": {
+                                    "type": "object",
+                                    "collectionFormat": "multi",
+                                    "example": {
+                                        "value": ""
+                                    }
+                                },
+                                "order": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "column": "",
+                                            "dir": ""
+                                        }
+                                    },
+                                    "collectionFormat": "multi"
+                                },
+                                "columns": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": ""
+                                    }
+                                },
+                                "draw": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/energy/settings-list": {
+            "post": {
+                "tags": [
+                    "Energy"
+                ],
+                "summary": "Energy Setting List",
+                "description": "Energy Setting List",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "start": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "length": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "search": {
+                                    "type": "object",
+                                    "collectionFormat": "multi",
+                                    "example": {
+                                        "value": ""
+                                    }
+                                },
+                                "order": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "column": "",
+                                            "dir": ""
+                                        }
+                                    },
+                                    "collectionFormat": "multi"
+                                },
+                                "columns": {
+                                    "type": "object",
+                                    "example": {
+                                        "data": ""
+                                    }
+                                },
+                                "draw": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/energy/add": {
+            "post": {
+                "tags": [
+                    "Energy"
+                ],
+                "summary": "Energy Create",
+                "description": "Energy Create",
+                "parameters": [
+                    {
+                        "name": "company",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/energy/update": {
+            "post": {
+                "tags": [
+                    "Energy"
+                ],
+                "summary": "Energy Update",
+                "description": "Energy Update",
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "company",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/energy/delete": {
+            "post": {
+                "tags": [
+                    "Energy"
+                ],
+                "summary": "Energy Delete",
+                "description": "Energy Delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/energy/delete-settings": {
+            "post": {
+                "tags": [
+                    "Energy"
+                ],
+                "summary": "Energy Delete Settings",
+                "description": "Energy Delete Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/export-pdf": {
+            "post": {
+                "tags": [
+                    "Export"
+                ],
+                "summary": "Export PDF",
+                "description": "Export PDF",
+                "parameters": [
+                    {
+                        "name": "export_type",
+                        "in": "query",
+                        "description": "value = chargers | vehicles | energy | filters",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/export-excel": {
+            "post": {
+                "tags": [
+                    "Export"
+                ],
+                "summary": "Export Excel",
+                "description": "Export Excel",
+                "parameters": [
+                    {
+                        "name": "export_type",
+                        "in": "query",
+                        "description": "value = chargers | vehicles | energy | filters",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/download-pdf/{filename}": {
+            "get": {
+                "tags": [
+                    "Export"
+                ],
+                "summary": "Download PDF File",
+                "description": "Download PDF File",
+                "parameters": [
+                    {
+                        "name": "filename",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/download-excel/{filename}": {
+            "get": {
+                "tags": [
+                    "Export"
+                ],
+                "summary": "Download Excel File",
+                "description": "Download Excel File",
+                "parameters": [
+                    {
+                        "name": "filename",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/img/{folder}/{image}": {
+            "get": {
+                "tags": [
+                    "Other"
+                ],
+                "summary": "Image Link",
+                "description": "Image Link",
+                "parameters": [
+                    {
+                        "name": "folder",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "image",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/country-list": {
+            "get": {
+                "tags": [
+                    "Other"
+                ],
+                "summary": "Country List",
+                "description": "Country List",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/charger-filters": {
+            "get": {
+                "tags": [
+                    "Other"
+                ],
+                "summary": "Charger Filters",
+                "description": "Charger Filters",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/dumy_data": {
+            "get": {
+                "tags": [
+                    "Other"
+                ],
+                "summary": "Dumy Data",
+                "description": "Dumy Data",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/update_password": {
+            "get": {
+                "tags": [
+                    "Other"
+                ],
+                "summary": "Update Password",
+                "description": "Update Password",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/testmail": {
+            "get": {
+                "tags": [
+                    "Other"
+                ],
+                "summary": "Test Mail",
+                "description": "Test Mail",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
             }
         }
     },
@@ -1212,6 +2289,9 @@
             "name": "Authencation"
         },
         {
+            "name": "Device Token"
+        },
+        {
             "name": "Staff"
         },
         {
@@ -1219,6 +2299,21 @@
         },
         {
             "name": "Chargers"
+        },
+        {
+            "name": "Payments"
+        },
+        {
+            "name": "Vehicles"
+        },
+        {
+            "name": "Energy"
+        },
+        {
+            "name": "Export"
+        },
+        {
+            "name": "Other"
         }
     ]
 }

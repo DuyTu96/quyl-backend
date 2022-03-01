@@ -26,7 +26,26 @@ Route::post('/auth/login', [App\Http\Controllers\AuthController::class, 'login']
 Route::post('/auth/reset-email', [App\Http\Controllers\AuthController::class, 'sendResetEmail']);
 
 
+Route::prefix('chargers')->group(function(){
+    Route::post('/list',[App\Http\Controllers\ChargersController::class, 'index']);
+    Route::post('/history-list',[App\Http\Controllers\ChargersController::class, 'history']);
+    Route::post('/add',[App\Http\Controllers\ChargersController::class, 'create']);
+    Route::post('/delete',[App\Http\Controllers\ChargersController::class, 'delete']);
+    Route::post('/update',[App\Http\Controllers\ChargersController::class, 'update']);
+    Route::post('/filters-list',[App\Http\Controllers\ChargersController::class, 'filtersList']);
+    Route::post('/delete-filter',[App\Http\Controllers\ChargersController::class, 'deleteFilter']);
+    Route::post('/filters',[App\Http\Controllers\ChargersController::class, 'addFilter']);
+    Route::get('/filters',[App\Http\Controllers\ChargersController::class, 'getFilter']);
+    Route::post('/delete-history',[App\Http\Controllers\ChargersController::class, 'deleteHistory']);
+});
 
+Route::prefix('payments')->group(function(){
+    Route::post('/list',[App\Http\Controllers\PaymentsController::class, 'index']);
+    Route::post('/delete',[App\Http\Controllers\PaymentsController::class, 'delete']);
+    Route::post('/amount',[App\Http\Controllers\PaymentsController::class, 'amount']);
+});
+Route::post('/get-address',[App\Http\Controllers\PaymentsController::class, 'getAddressWithLatLong']);
+Route::post('/test/push-noti',[App\Http\Controllers\ChargersController::class, 'pushAllNotification']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
@@ -40,27 +59,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::prefix('customers')->group(function(){
         Route::post('/list',[App\Http\Controllers\CustomersController::class, 'index']);
         Route::post('/create',[App\Http\Controllers\CustomersController::class, 'create']);
-        Route::post('/settings',[App\Http\Controllers\CustomersController::class, 'delete']);
+        Route::post('/settings',[App\Http\Controllers\CustomersController::class, 'saveSettings']);
         Route::post('/delete',[App\Http\Controllers\CustomersController::class, 'delete']);
     });
 
-    Route::prefix('chargers')->group(function(){
-        Route::post('/list',[App\Http\Controllers\ChargersController::class, 'index']);
-        Route::post('/history-list',[App\Http\Controllers\ChargersController::class, 'history']);
-        Route::post('/add',[App\Http\Controllers\ChargersController::class, 'create']);
-        Route::post('/delete',[App\Http\Controllers\ChargersController::class, 'delete']);
-        Route::post('/update',[App\Http\Controllers\ChargersController::class, 'update']);
-        Route::post('/filters-list',[App\Http\Controllers\ChargersController::class, 'filtersList']);
-        Route::post('/delete-filter',[App\Http\Controllers\ChargersController::class, 'deleteFilter']);
-        Route::post('/filters',[App\Http\Controllers\ChargersController::class, 'addFilter']);
-        Route::get('/filters',[App\Http\Controllers\ChargersController::class, 'getFilter']);
-        Route::post('/delete-history',[App\Http\Controllers\ChargersController::class, 'deleteHistory']);
-    });
 
-    Route::prefix('payments')->group(function(){
-        Route::post('/list',[App\Http\Controllers\PaymentsController::class, 'index']);
-        Route::post('/delete',[App\Http\Controllers\PaymentsController::class, 'delete']);
-    });
 
     Route::prefix('vehicles')->group(function(){
         Route::post('/list',[App\Http\Controllers\VehicleController::class, 'index']);
@@ -80,7 +83,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/delete-settings',[App\Http\Controllers\EnergyController::class, 'deleteSettings']);
     });
 
-    
+    Route::prefix('device-token')->group(function(){
+        Route::post('/add', [App\Http\Controllers\DeviceTokenController::class, 'store']);
+        Route::post('/delete', [App\Http\Controllers\DeviceTokenController::class, 'destroy']);
+    });
 
     Route::get('/me', function(Request $request) {
         $data = auth()->user();

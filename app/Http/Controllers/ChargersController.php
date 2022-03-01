@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Charger;
 use App\Models\ChargerHistory;
 use App\Models\ChargerFilters;
+use App\Models\DeviceToken;
+use App\Models\User;
 use Validator;
 use DB;
+use Exception;
+use Log;
 
 class ChargersController extends Controller
 {
@@ -50,7 +54,7 @@ class ChargersController extends Controller
                 ->orWhere('longitude', '=', $search)
                 ->orWhere('cost', '=', $search)
                 ->orWhere('charger_id', '=', $search);
-            })->limit($length)->skip($start)->orderBy($orderColumn,$orderDir)->get();
+            })->skip($start)->orderBy($orderColumn,$orderDir)->get();
 
             $output['recordsFiltered'] = $output['recordsTotal'] = Charger::where(function ($query) use($search) {
                 return $query->orWhere('operator', 'like', '%'.$search.'%')
@@ -63,7 +67,7 @@ class ChargersController extends Controller
                 ->orWhere('charger_id', '=', $search);
             })->count();
         }else{
-            $output['data'] = Charger::limit($length)->skip($start)->orderBy($orderColumn,$orderDir)->get();
+            $output['data'] = Charger::skip($start)->orderBy($orderColumn,$orderDir)->get();
             $output['recordsFiltered'] = $output['recordsTotal'] = Charger::count();
         }
         
@@ -127,6 +131,7 @@ class ChargersController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),[
+            'name' => 'required',
             'charger_id' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
@@ -145,6 +150,7 @@ class ChargersController extends Controller
         }
 
         $data  = [
+            'name' => $request->get('name'),
             'charger_id' => $request->get('charger_id'),
             'latitude' => $request->get('latitude'),
             'longitude' => $request->get('longitude'),
@@ -161,6 +167,13 @@ class ChargersController extends Controller
 
         $record = Charger::create($data);
 
+        $address = $this->getAddressWithLatLong($request->get('latitude'), $request->get('longitude'));
+
+        $title = '';
+        $body = 'New charger added at ' . $address;
+
+        $this->pushAllNotification($title, $body);
+
         return $this->success($record,'Charger record added successfully');
     }
 
@@ -168,6 +181,7 @@ class ChargersController extends Controller
     {
         $id = $request->get('_id');
         $validator = Validator::make($request->all(),[
+            'name' => 'required',
             'charger_id' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
@@ -186,6 +200,7 @@ class ChargersController extends Controller
         }
 
         $data  = [
+            'name' => $request->get('name'),
             'charger_id' => $request->get('charger_id'),
             'latitude' => $request->get('latitude'),
             'longitude' => $request->get('longitude'),
@@ -370,5 +385,120 @@ class ChargersController extends Controller
         }
         
         return $this->success($output,'success');
+    }
+
+    public function pushAllNotification($title, $body)
+    {
+        try {
+            $device_tokens = DeviceToken::with('user')->get()->toArray();
+        
+            foreach ($device_tokens as $device_token) {
+                if (isset($device_token['user']['settings']['notifications']['push_notification'])) {
+                    if ($device_token['user']['settings']['notifications']['push_notification'] == 1) {
+                        $dataNotification = [
+                            'to_token' => $device_token['token'],
+                            'title' => $title,
+                            'body' => $body
+                        ];
+            
+                        $this->pushNotification($dataNotification);
+                    }
+                } else {
+                    $dataNotification = [
+                        'to_token' => $device_token['token'],
+                        'title' => $title,
+                        'body' => $body
+                    ];
+        
+                    $this->pushNotification($dataNotification);
+                }
+            }
+
+            return true;
+        } catch (Exception $e) {
+            Log::debug('pushAllNotification: ' . $e->getMessage());
+        }
+    }
+
+    public function pushNotification($dataNotification)
+    {
+        try {
+            $serverKey = config('app.firebase_server_key');
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://fcm.googleapis.com/fcm/send',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>'{
+                "to": "' . $dataNotification['to_token'] . '",
+                "notification": {
+                    "Title": "' . $dataNotification['title'] . '",
+                    "body": "' . $dataNotification['body'] . '",
+                    "OrganizationId": "2",
+                    "content_available": true,
+                    "priority": "high",
+                    "badge": 1,
+                },
+                "data": {
+                    "priority": "high",
+                    "sound": "app_sound.wav",
+                    "content_available": true,
+                    "bodyText": "' . $dataNotification['body'] . '",
+                }
+            }',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: key=' . $serverKey,
+                'Content-Type: application/json'
+            ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+            return $response;
+        } catch (Exception $e) {
+            Log::debug('pushNotification: ' . $e->getMessage());
+        }
+    }
+
+    public function getAddressWithLatLong($lat, $long)
+    {
+        try {
+            $geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=" . config('app.google_api_key');
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $geocode);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            $response = curl_exec($ch);
+            curl_close($ch);
+            $output = json_decode($response);
+            $dataarray = get_object_vars($output);
+            if ($dataarray['status'] != 'ZERO_RESULTS' && $dataarray['status'] != 'INVALID_REQUEST') {
+                if (isset($dataarray['results'][0]->formatted_address)) {
+
+                    $address = $dataarray['results'][0]->formatted_address;
+
+                } else {
+                    $address = 'Not Found';
+
+                }
+            } else {
+                $address = 'Not Found';
+            }
+
+            return $address;
+        } catch (Exception $e) {
+            Log::debug('getAddressWithLatLong: ' . $e->getMessage());
+        }
     }
 }

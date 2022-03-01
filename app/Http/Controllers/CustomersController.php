@@ -40,7 +40,7 @@ class CustomersController extends Controller
 
         $db = DB::connection('mongodb');
 
-        $columns = ['id','email','name','profile_pic','settings','created_at'];
+        $columns = ['id', 'email', 'name', 'profile_pic', 'settings', 'created_at', 'contact_number'];
         if($search){
             $output['data'] = Customers::where('account_type','customers')->where(function ($query) use($search) {
                 return $query->orWhere('name', 'like', '%'.$search.'%')->orWhere('email', 'like', '%'.$search.'%');

@@ -31,9 +31,9 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:6',
-            'contact_number' => 'required|min:10|max:10'
         ]);
 
         if (!$validator->passes()) {
@@ -41,9 +41,13 @@ class AuthController extends Controller
         }
 
         $body = $request->all();
+        $first_name = $body['first_name'];
+        $last_name = $request->get('last_name');
+
         $user = User::create([
             'first_name' => $body['first_name'],
             'last_name' => $request->get('last_name'),
+            'name' => $first_name . $last_name,
             'contact_number' => $request->get('contact_number'),
             'password' => Hash::make($body['password']),
             'email' => $body['email'],
@@ -147,7 +151,7 @@ class AuthController extends Controller
         
         Auth::user()->fill(['profile_pic' => $filename])->save();
 
-        return $this->success(['profile_pic' => url('img/customer/'.$filename)],'Profile image uploaded successfully');
+        return $this->success(['profile_pic' => url('img/customers/'.$filename)],'Profile image uploaded successfully');
     }
 
     public function sendResetEmail(Request $request)
